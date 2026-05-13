@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saad Khan — DevOps Engineer</title>
   <style>
-    /* ========== CSS Variables for Dark & Light ========== */
     :root {
       --bg: #08080c;
       --surface: rgba(255,255,255,0.03);
@@ -14,7 +13,6 @@
       --text-secondary: #aaa;
       --text-muted: #888;
       --heading: #fff;
-      --accent: #fff;
       --btn-bg: rgba(255,255,255,0.05);
       --btn-hover-bg: rgba(255,255,255,0.12);
       --btn-border: rgba(255,255,255,0.2);
@@ -22,6 +20,7 @@
       --card-hover-border: rgba(255,255,255,0.1);
       --toggle-bg: rgba(255,255,255,0.1);
       --toggle-circle: #fff;
+      --featured-glow: rgba(255,255,255,0.08);
     }
     .light-theme {
       --bg: #f7f7f9;
@@ -31,7 +30,6 @@
       --text-secondary: #555;
       --text-muted: #777;
       --heading: #111;
-      --accent: #111;
       --btn-bg: rgba(0,0,0,0.03);
       --btn-hover-bg: rgba(0,0,0,0.08);
       --btn-border: rgba(0,0,0,0.15);
@@ -39,6 +37,7 @@
       --card-hover-border: rgba(0,0,0,0.1);
       --toggle-bg: #ddd;
       --toggle-circle: #111;
+      --featured-glow: rgba(0,0,0,0.04);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -54,15 +53,13 @@
     a { text-decoration: none; color: inherit; }
     .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
 
-    /* Navigation */
+    /* Nav */
     nav {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
       background: rgba(8,8,12,0.8); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    .light-theme nav {
-      background: rgba(247,247,249,0.8);
-    }
+    .light-theme nav { background: rgba(247,247,249,0.8); }
     .nav-container {
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.2rem 2rem; max-width: 1000px; margin: 0 auto;
@@ -72,12 +69,11 @@
     .nav-links a { font-size: 0.95rem; color: var(--text-secondary); transition: color 0.2s; }
     .nav-links a:hover { color: var(--heading); }
 
-    /* Theme Toggle */
     .theme-toggle {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
       background: var(--toggle-bg); border: none; cursor: pointer;
-      transition: all 0.3s; margin-left: 1rem;
+      transition: all 0.3s; margin-left: 1rem; position: relative;
     }
     .theme-toggle svg {
       width: 18px; height: 18px; fill: none; stroke: var(--toggle-circle);
@@ -88,9 +84,6 @@
     .light-theme .moon-icon { opacity: 1; }
     .moon-icon { opacity: 0; }
     .sun-icon { opacity: 1; }
-    .theme-toggle {
-      position: relative;
-    }
 
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .hamburger span { width: 22px; height: 2px; background: var(--heading); border-radius: 2px; }
@@ -104,7 +97,6 @@
     .hero h1 {
       font-size: clamp(3.2rem, 10vw, 5.5rem); font-weight: 700;
       letter-spacing: -2px; line-height: 1.1; margin-bottom: 0.5rem;
-      color: var(--heading);
       background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-muted) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
@@ -118,7 +110,7 @@
     .btn:hover { background: var(--btn-hover-bg); border-color: var(--btn-border); }
 
     /* Sections */
-    section { padding: 6rem 0; }
+    section { padding: 5rem 0; }
     .section-title {
       font-size: 2rem; font-weight: 700; letter-spacing: -1px;
       margin-bottom: 3rem; color: var(--heading);
@@ -129,24 +121,23 @@
     .about-content { max-width: 700px; }
     .about-content p { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; }
 
-    /* Skills Grid */
-    .skills-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
+    /* Skills – New Design */
+    .skills-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem;
     }
-    .skill-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.8rem; transition: all 0.25s;
+    .skill-group h3 {
+      font-size: 1rem; font-weight: 600; color: var(--heading); margin-bottom: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .skill-card:hover { background: var(--card-hover-bg); border-color: var(--card-hover-border); }
-    .skill-card h3 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.8rem; font-weight: 600; }
-    .skill-card ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skill-card li {
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tags span {
       font-size: 0.85rem; color: var(--text-secondary); background: var(--surface);
       padding: 0.25rem 0.8rem; border-radius: 20px; border: 1px solid var(--border);
+      transition: all 0.2s;
     }
+    .skill-tags span:hover { background: var(--card-hover-bg); }
 
-    /* Experience Timeline */
+    /* Experience */
     .timeline { position: relative; padding-left: 1.8rem; border-left: 1px solid var(--border); }
     .timeline-item { margin-bottom: 3rem; position: relative; }
     .timeline-item::before {
@@ -157,22 +148,43 @@
     .timeline-item .meta { font-size: 0.9rem; color: var(--text-muted); margin: 0.3rem 0 0.8rem; }
     .timeline-item p { color: var(--text-secondary); font-size: 0.95rem; max-width: 600px; }
 
-    /* Projects Grid */
-    .projects-grid {
+    /* Featured Projects */
+    .featured-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.8rem;
+      gap: 1.8rem; margin-bottom: 4rem;
+    }
+    .featured-card {
+      background: var(--featured-glow); border: 1px solid var(--btn-border);
+      border-radius: 10px; padding: 2rem; transition: all 0.3s;
+      position: relative;
+    }
+    .featured-card:hover {
+      background: var(--card-hover-bg); border-color: var(--card-hover-border);
+      transform: translateY(-3px);
+    }
+    .featured-card h4 { font-size: 1.2rem; color: var(--heading); margin-bottom: 0.5rem; font-weight: 600; }
+    .featured-card p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.2rem; }
+    .featured-link { font-size: 0.9rem; color: var(--heading); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .featured-link:hover { border-color: var(--heading); }
+
+    /* Category Section */
+    .project-category { margin-bottom: 3rem; }
+    .project-category h3 {
+      font-size: 1.1rem; font-weight: 600; color: var(--heading);
+      margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .category-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
     .project-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 8px; padding: 1.8rem; transition: all 0.25s;
     }
     .project-card:hover { background: var(--card-hover-bg); border-color: var(--card-hover-border); }
-    .project-card h4 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.5rem; font-weight: 600; }
-    .project-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.2rem; }
-    .project-link {
-      font-size: 0.85rem; color: var(--text-secondary); border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
-    }
+    .project-card h4 { font-size: 1.05rem; color: var(--heading); margin-bottom: 0.5rem; font-weight: 600; }
+    .project-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; }
+    .project-link { font-size: 0.85rem; color: var(--text-secondary); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
     .project-link:hover { border-color: var(--text-secondary); }
 
     /* Contact */
@@ -182,11 +194,12 @@
     /* Footer */
     footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
 
-    /* Mobile */
+    /* Responsive */
     @media (max-width: 768px) {
       .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg); flex-direction: column; padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
       .nav-links.active { display: flex; }
       .hamburger { display: flex; }
+      .skills-list { grid-template-columns: 1fr; }
       .section-title { font-size: 1.8rem; }
       .theme-toggle { margin-left: 0; }
     }
@@ -248,143 +261,178 @@
       </div>
     </section>
 
-    <!-- Skills -->
+    <!-- Technical Skills – Redesigned -->
     <section class="container">
       <h2 class="section-title">Technical Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
+      <div class="skills-list">
+        <div class="skill-group">
           <h3>Cloud & IaC</h3>
-          <ul><li>AWS</li><li>Terraform</li><li>EC2/VPC/IAM</li><li>S3</li></ul>
+          <div class="skill-tags">
+            <span>AWS</span><span>Terraform</span><span>EC2/VPC/IAM</span><span>S3</span>
+          </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-group">
           <h3>Containers</h3>
-          <ul><li>Docker</li><li>Podman</li><li>Kubernetes</li><li>Docker Compose</li></ul>
+          <div class="skill-tags">
+            <span>Docker</span><span>Podman</span><span>Kubernetes</span><span>Docker Compose</span>
+          </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-group">
           <h3>CI/CD & Automation</h3>
-          <ul><li>GitHub Actions</li><li>Jenkins</li><li>Ansible</li><li>Bash</li><li>Python</li></ul>
+          <div class="skill-tags">
+            <span>GitHub Actions</span><span>Jenkins</span><span>Ansible</span><span>Bash</span><span>Python</span>
+          </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-group">
           <h3>Monitoring & Logging</h3>
-          <ul><li>Prometheus</li><li>Grafana</li><li>Zabbix</li><li>Nagios</li><li>ELK Stack</li></ul>
+          <div class="skill-tags">
+            <span>Prometheus</span><span>Grafana</span><span>Zabbix</span><span>Nagios</span><span>ELK Stack</span>
+          </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-group">
           <h3>Security & Hardening</h3>
-          <ul><li>IAM</li><li>Fail2Ban</li><li>iptables/UFW</li><li>Ansible Vault</li></ul>
+          <div class="skill-tags">
+            <span>IAM</span><span>Fail2Ban</span><span>iptables/UFW</span><span>Ansible Vault</span>
+          </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-group">
           <h3>Systems</h3>
-          <ul><li>Linux (RHEL/Ubuntu)</li><li>Nginx/Apache</li><li>MySQL</li><li>VMware/Proxmox</li></ul>
+          <div class="skill-tags">
+            <span>Linux (RHEL/Ubuntu)</span><span>Nginx/Apache</span><span>MySQL</span><span>VMware/Proxmox</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects - ALL 17 -->
+    <!-- Projects -->
     <section id="projects" class="container">
       <h2 class="section-title">Projects</h2>
-      <p class="section-subtitle">Every project I've built, from infrastructure to automation.</p>
-      <div class="projects-grid">
-        <!-- 1 -->
-        <div class="project-card">
+      
+      <!-- Featured (High) Projects -->
+      <p class="section-subtitle">High impact work I'm most proud of.</p>
+      <div class="featured-grid">
+        <div class="featured-card">
           <h4>Real-Time AI Security Analytics Platform</h4>
-          <p>Real-time log processing pipeline with ML-based anomaly detection and threat identification.</p>
-          <a href="https://github.com/saadcnx/real-time-ai-security" target="_blank" class="project-link">GitHub →</a>
+          <p>Real-time log processing with ML-based anomaly detection and threat identification.</p>
+          <a href="https://github.com/saadcnx/real-time-ai-security" target="_blank" class="featured-link">GitHub →</a>
         </div>
-        <!-- 2 -->
-        <div class="project-card">
-          <h4>Ansible Web Server Role Automation</h4>
-          <p>Role-based Ansible automation to install, configure, and manage Apache web servers on Ubuntu.</p>
-          <a href="https://github.com/saadcnx/ansible-web-server" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 3 -->
-        <div class="project-card">
-          <h4>Ansible Vault Enterprise Secrets Management</h4>
-          <p>Enterprise-grade secrets management and automation using Ansible Vault.</p>
-          <a href="https://github.com/saadcnx/ansible-vault" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 4 -->
-        <div class="project-card">
-          <h4>Ansible Dynamic Config System</h4>
-          <p>Dynamic configuration management system using Ansible for scalable infrastructure.</p>
-          <a href="https://github.com/saadcnx/ansible-dynamic-config" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 5 -->
-        <div class="project-card">
+        <div class="featured-card">
           <h4>Kubernetes Multi-Tier Application</h4>
-          <p>Multi-tier app on Kubernetes with Nginx frontend, Flask API backend, and MySQL database.</p>
-          <a href="https://github.com/saadcnx/k8s-multi-tier" target="_blank" class="project-link">GitHub →</a>
+          <p>Multi-tier app on Kubernetes with Nginx frontend, Flask API backend, and MySQL.</p>
+          <a href="https://github.com/saadcnx/k8s-multi-tier" target="_blank" class="featured-link">GitHub →</a>
         </div>
-        <!-- 6 -->
-        <div class="project-card">
+        <div class="featured-card">
           <h4>Kubernetes Security Best Practices</h4>
-          <p>KCNA-aligned Kubernetes security implementation covering RBAC, network policies, and pod security.</p>
-          <a href="https://github.com/saadcnx/k8s-security" target="_blank" class="project-link">GitHub →</a>
+          <p>KCNA-aligned security implementation: RBAC, network policies, pod security.</p>
+          <a href="https://github.com/saadcnx/k8s-security" target="_blank" class="featured-link">GitHub →</a>
         </div>
-        <!-- 7 -->
-        <div class="project-card">
-          <h4>Kubernetes Persistent Storage</h4>
-          <p>Practical implementation of persistent volumes, claims, and storage classes in Kubernetes.</p>
-          <a href="https://github.com/saadcnx/k8s-persistent-storage" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 8 -->
-        <div class="project-card">
-          <h4>Kubernetes Building Blocks</h4>
-          <p>Core Kubernetes concepts: Deployments, Services, ConfigMaps, Secrets, and Ingress.</p>
-          <a href="https://github.com/saadcnx/k8s-building-blocks" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 9 -->
-        <div class="project-card">
-          <h4>Docker CI/CD with GitHub Actions</h4>
-          <p>Automated Docker image build and deployment pipeline using GitHub Actions.</p>
-          <a href="https://github.com/saadcnx/docker-cicd" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 10 -->
-        <div class="project-card">
-          <h4>Docker Complex App Orchestration</h4>
-          <p>Multi-service Docker Compose orchestration for complex application stacks.</p>
-          <a href="https://github.com/saadcnx/docker-complex-app" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 11 -->
-        <div class="project-card">
-          <h4>Multi-Container Web Application</h4>
-          <p>Production-style multi-container web application with Docker networking and volumes.</p>
-          <a href="https://github.com/saadcnx/multi-container-webapp" target="_blank" class="project-link">GitHub →</a>
-        </div>
-        <!-- 12 -->
-        <div class="project-card">
+        <div class="featured-card">
           <h4>Production Nginx Reverse Proxy & Load Balancer</h4>
           <p>Production-grade Nginx setup with reverse proxy, load balancing, and SSL termination.</p>
-          <a href="https://github.com/saadcnx/nginx-reverse-proxy" target="_blank" class="project-link">GitHub →</a>
+          <a href="https://github.com/saadcnx/nginx-reverse-proxy" target="_blank" class="featured-link">GitHub →</a>
         </div>
-        <!-- 13 -->
-        <div class="project-card">
-          <h4>Dockerized Flask Application</h4>
-          <p>Flask web application containerized with Docker for consistent deployment.</p>
-          <a href="https://github.com/saadcnx/dockerized-flask" target="_blank" class="project-link">GitHub →</a>
+        <div class="featured-card">
+          <h4>Docker CI/CD with GitHub Actions</h4>
+          <p>Automated Docker image build and deployment pipeline using GitHub Actions.</p>
+          <a href="https://github.com/saadcnx/docker-cicd" target="_blank" class="featured-link">GitHub →</a>
         </div>
-        <!-- 14 -->
-        <div class="project-card">
-          <h4>JIRA Automation Suite (Python)</h4>
-          <p>Python automation using JIRA REST API for auto-ticketing, health monitoring, and DevOps workflows.</p>
-          <a href="https://github.com/saadcnx/jira-automation" target="_blank" class="project-link">GitHub →</a>
+      </div>
+
+      <!-- All Projects by Category -->
+      <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--heading); margin-top: 2rem; margin-bottom: 2rem;">All Projects by Stack</h3>
+      
+      <!-- Kubernetes & Containers -->
+      <div class="project-category">
+        <h3>Kubernetes & Container Orchestration</h3>
+        <div class="category-grid">
+          <div class="project-card">
+            <h4>Kubernetes Persistent Storage</h4>
+            <p>Practical implementation of persistent volumes, claims, and storage classes.</p>
+            <a href="https://github.com/saadcnx/k8s-persistent-storage" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Kubernetes Building Blocks</h4>
+            <p>Core concepts: Deployments, Services, ConfigMaps, Secrets, and Ingress.</p>
+            <a href="https://github.com/saadcnx/k8s-building-blocks" target="_blank" class="project-link">GitHub →</a>
+          </div>
         </div>
-        <!-- 15 -->
-        <div class="project-card">
-          <h4>Flask JIRA API Project</h4>
-          <p>Flask-based web interface integrated with JIRA API for project and issue management.</p>
-          <a href="https://github.com/saadcnx/flask-jira-api" target="_blank" class="project-link">GitHub →</a>
+      </div>
+
+      <!-- Docker & DevOps -->
+      <div class="project-category">
+        <h3>Docker & DevOps</h3>
+        <div class="category-grid">
+          <div class="project-card">
+            <h4>Docker Complex App Orchestration</h4>
+            <p>Multi-service Docker Compose orchestration for complex application stacks.</p>
+            <a href="https://github.com/saadcnx/docker-complex-app" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Multi-Container Web Application</h4>
+            <p>Production-style multi-container web app with Docker networking and volumes.</p>
+            <a href="https://github.com/saadcnx/multi-container-webapp" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Dockerized Flask Application</h4>
+            <p>Flask web application containerized with Docker for consistent deployment.</p>
+            <a href="https://github.com/saadcnx/dockerized-flask" target="_blank" class="project-link">GitHub →</a>
+          </div>
         </div>
-        <!-- 16 -->
-        <div class="project-card">
-          <h4>Trainer Management System</h4>
-          <p>Full-stack Flask web app for managing trainer records with MySQL and CRUD operations.</p>
-          <a href="https://github.com/saadcnx/trainer-management" target="_blank" class="project-link">GitHub →</a>
+      </div>
+
+      <!-- Ansible Automation -->
+      <div class="project-category">
+        <h3>Ansible Automation</h3>
+        <div class="category-grid">
+          <div class="project-card">
+            <h4>Ansible Web Server Role Automation</h4>
+            <p>Role-based automation to install, configure, and manage Apache web servers.</p>
+            <a href="https://github.com/saadcnx/ansible-web-server" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Ansible Vault Enterprise Secrets Management</h4>
+            <p>Enterprise-grade secrets management using Ansible Vault.</p>
+            <a href="https://github.com/saadcnx/ansible-vault" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Ansible Dynamic Config System</h4>
+            <p>Dynamic configuration management for scalable infrastructure.</p>
+            <a href="https://github.com/saadcnx/ansible-dynamic-config" target="_blank" class="project-link">GitHub →</a>
+          </div>
         </div>
-        <!-- 17 -->
-        <div class="project-card">
-          <h4>AWS Solution Architecture</h4>
-          <p>AWS infrastructure architecture designs covering EC2, VPC, IAM, S3, and cloud best practices.</p>
-          <a href="https://github.com/saadcnx/aws-solution-architecture" target="_blank" class="project-link">GitHub →</a>
+      </div>
+
+      <!-- Python, APIs & JIRA -->
+      <div class="project-category">
+        <h3>Python, APIs & JIRA</h3>
+        <div class="category-grid">
+          <div class="project-card">
+            <h4>JIRA Automation Suite (Python)</h4>
+            <p>Python automation using JIRA REST API for auto-ticketing and health monitoring.</p>
+            <a href="https://github.com/saadcnx/jira-automation" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Flask JIRA API Project</h4>
+            <p>Flask-based web interface integrated with JIRA API for project management.</p>
+            <a href="https://github.com/saadcnx/flask-jira-api" target="_blank" class="project-link">GitHub →</a>
+          </div>
+          <div class="project-card">
+            <h4>Trainer Management System</h4>
+            <p>Full-stack Flask web app for managing trainer records with MySQL and CRUD.</p>
+            <a href="https://github.com/saadcnx/trainer-management" target="_blank" class="project-link">GitHub →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cloud Architecture -->
+      <div class="project-category">
+        <h3>Cloud Architecture</h3>
+        <div class="category-grid">
+          <div class="project-card">
+            <h4>AWS Solution Architecture</h4>
+            <p>AWS infrastructure designs covering EC2, VPC, IAM, S3, and cloud best practices.</p>
+            <a href="https://github.com/saadcnx/aws-solution-architecture" target="_blank" class="project-link">GitHub →</a>
+          </div>
         </div>
       </div>
     </section>
@@ -405,23 +453,15 @@
   </footer>
 
   <script>
-    // Mobile nav toggle
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
     });
 
-    // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light-theme');
-    });
+    themeToggle.addEventListener('click', () => document.body.classList.toggle('light-theme'));
   </script>
 </body>
 </html>
