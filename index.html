@@ -1,283 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Saad Khan | DevOps Engineer!</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saad Khan — DevOps Engineer</title>
+  <style>
+    /* ========== CSS Variables for Dark & Light ========== */
+    :root {
+      --bg: #08080c;
+      --surface: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.05);
+      --text-primary: #e0e0e0;
+      --text-secondary: #aaa;
+      --text-muted: #888;
+      --heading: #fff;
+      --accent: #fff;
+      --btn-bg: rgba(255,255,255,0.05);
+      --btn-hover-bg: rgba(255,255,255,0.12);
+      --btn-border: rgba(255,255,255,0.2);
+      --card-hover-bg: rgba(255,255,255,0.06);
+      --card-hover-border: rgba(255,255,255,0.1);
+      --toggle-bg: rgba(255,255,255,0.1);
+      --toggle-circle: #fff;
+    }
+    .light-theme {
+      --bg: #f7f7f9;
+      --surface: rgba(0,0,0,0.02);
+      --border: rgba(0,0,0,0.06);
+      --text-primary: #1a1a1a;
+      --text-secondary: #555;
+      --text-muted: #777;
+      --heading: #111;
+      --accent: #111;
+      --btn-bg: rgba(0,0,0,0.03);
+      --btn-hover-bg: rgba(0,0,0,0.08);
+      --btn-border: rgba(0,0,0,0.15);
+      --card-hover-bg: rgba(0,0,0,0.04);
+      --card-hover-border: rgba(0,0,0,0.1);
+      --toggle-bg: #ddd;
+      --toggle-circle: #111;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      background: rgba(8,8,12,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .light-theme nav {
+      background: rgba(247,247,249,0.8);
+    }
+    .nav-container {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 2rem; max-width: 1000px; margin: 0 auto;
+    }
+    .logo { font-weight: 700; font-size: 1.3rem; color: var(--heading); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.95rem; color: var(--text-secondary); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--heading); }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--toggle-bg); border: none; cursor: pointer;
+      transition: all 0.3s; margin-left: 1rem;
+    }
+    .theme-toggle svg {
+      width: 18px; height: 18px; fill: none; stroke: var(--toggle-circle);
+      transition: opacity 0.2s;
+    }
+    .sun-icon, .moon-icon { position: absolute; }
+    .light-theme .sun-icon { opacity: 0; }
+    .light-theme .moon-icon { opacity: 1; }
+    .moon-icon { opacity: 0; }
+    .sun-icon { opacity: 1; }
+    .theme-toggle {
+      position: relative;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: var(--heading); border-radius: 2px; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 8rem 1rem 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(3.2rem, 10vw, 5.5rem); font-weight: 700;
+      letter-spacing: -2px; line-height: 1.1; margin-bottom: 0.5rem;
+      color: var(--heading);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-muted) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { font-size: 1.3rem; color: var(--text-muted); margin: 1.5rem 0 2.5rem; max-width: 600px; }
+    .btn {
+      display: inline-block; padding: 0.85rem 2.2rem;
+      border: 1px solid var(--btn-border); border-radius: 6px;
+      font-size: 1rem; font-weight: 500; color: var(--heading); transition: all 0.2s;
+      background: var(--btn-bg);
+    }
+    .btn:hover { background: var(--btn-hover-bg); border-color: var(--btn-border); }
+
+    /* Sections */
+    section { padding: 6rem 0; }
+    .section-title {
+      font-size: 2rem; font-weight: 700; letter-spacing: -1px;
+      margin-bottom: 3rem; color: var(--heading);
+    }
+    .section-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; }
+
+    /* About */
+    .about-content { max-width: 700px; }
+    .about-content p { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.8rem; transition: all 0.25s;
+    }
+    .skill-card:hover { background: var(--card-hover-bg); border-color: var(--card-hover-border); }
+    .skill-card h3 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.8rem; font-weight: 600; }
+    .skill-card ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-card li {
+      font-size: 0.85rem; color: var(--text-secondary); background: var(--surface);
+      padding: 0.25rem 0.8rem; border-radius: 20px; border: 1px solid var(--border);
+    }
+
+    /* Experience Timeline */
+    .timeline { position: relative; padding-left: 1.8rem; border-left: 1px solid var(--border); }
+    .timeline-item { margin-bottom: 3rem; position: relative; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.25rem; top: 0.4rem;
+      width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%;
+    }
+    .timeline-item h3 { font-size: 1.2rem; color: var(--heading); }
+    .timeline-item .meta { font-size: 0.9rem; color: var(--text-muted); margin: 0.3rem 0 0.8rem; }
+    .timeline-item p { color: var(--text-secondary); font-size: 0.95rem; max-width: 600px; }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.8rem; transition: all 0.25s;
+    }
+    .project-card:hover { background: var(--card-hover-bg); border-color: var(--card-hover-border); }
+    .project-card h4 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.5rem; font-weight: 600; }
+    .project-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.2rem; }
+    .project-link {
+      font-size: 0.85rem; color: var(--text-secondary); border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .project-link:hover { border-color: var(--text-secondary); }
+
+    /* Contact */
+    .contact-text { font-size: 1.2rem; color: var(--text-secondary); max-width: 500px; margin-bottom: 2rem; }
+    .contact-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    /* Footer */
+    footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg); flex-direction: column; padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
+      .section-title { font-size: 1.8rem; }
+      .theme-toggle { margin-left: 0; }
+    }
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav id="navbar">
-  <div class="nav-logo">&lt;saadcnx /&gt;</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="terminal-window">
-      <div class="terminal-bar">
-        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span class="terminal-title">saad@portfolio:~</span>
-      </div>
-      <div class="terminal-body">
-        <p><span class="prompt">saad@portfolio:~$</span> whoami</p>
-        <p class="output">Saad Khan</p>
-        <p><span class="prompt">saad@portfolio:~$</span> cat role.txt</p>
-        <p class="output typed" id="typed-output"></p>
-        <p><span class="prompt">saad@portfolio:~$</span> <span class="cursor">█</span></p>
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">Saad Khan</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
       </div>
     </div>
-    <div class="hero-text">
-      <h1>Saad Khan</h1>
-      <p class="hero-sub">DevOps Engineer &amp; Linux SysAdmin</p>
-      <p class="hero-desc">I don't just deploy systems — I automate, secure, and scale them.</p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="devops-engineer.pdf" download class="btn btn-outline">Download CV</a>
-      </div>
-      <div class="hero-socials">
-        <a href="https://github.com/saadcnx" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com/in/saad-khan-sysops/" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="mailto:saadcnx@gmail.com"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
+  </nav>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-grid">
-      <div class="about-avatar">
-        <div class="avatar-ring">
-          <div class="avatar-inner">SK</div>
-        </div>
-        <div class="status-badge"><span class="status-dot"></span> Available for Work</div>
-      </div>
-      <div class="about-text">
-        <p>Started with Linux servers in Islamabad, now building real-time AI analytics pipelines and Kubernetes clusters. I bridge traditional SysAdmin expertise with modern DevOps practices — from securing servers with Fail2Ban and iptables to deploying microservices on Kubernetes with full CI/CD automation.</p>
-        <p>Currently pursuing a <strong>Bachelor's in AIOps</strong> — a forward-thinking intersection of AI and IT Operations that shapes how I approach every infrastructure challenge.</p>
-        <div class="about-stats">
-          <div class="stat"><span class="stat-num">17+</span><span class="stat-label">Projects</span></div>
-          <div class="stat"><span class="stat-num">2+</span><span class="stat-label">Years Hands-On</span></div>
-          <div class="stat"><span class="stat-num">15+</span><span class="stat-label">Tools Mastered</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Hi, I'm Saad Khan</h1>
+      <p>DevOps Engineer & Linux SysAdmin — I automate, secure, and scale infrastructure.</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </section>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="skills-tabs">
-      <button class="tab-btn active" data-tab="cloud">Cloud & IaC</button>
-      <button class="tab-btn" data-tab="containers">Containers</button>
-      <button class="tab-btn" data-tab="cicd">CI/CD</button>
-      <button class="tab-btn" data-tab="data">Data & Streaming</button>
-      <button class="tab-btn" data-tab="monitoring">Monitoring</button>
-      <button class="tab-btn" data-tab="automation">Automation</button>
-      <button class="tab-btn" data-tab="security">Security</button>
-      <button class="tab-btn" data-tab="linux">Linux & Web</button>
-    </div>
-    <div class="skills-content">
-      <div class="tab-panel active" id="tab-cloud">
-        <div class="skill-cards">
-          <div class="skill-card"><i class="fab fa-aws"></i><span>AWS</span></div>
-          <div class="skill-card"><span class="skill-icon">🏗️</span><span>Terraform</span></div>
-          <div class="skill-card"><span class="skill-icon">☁️</span><span>EC2 / VPC / IAM</span></div>
-          <div class="skill-card"><span class="skill-icon">📦</span><span>S3</span></div>
-        </div>
+    <!-- About -->
+    <section id="about" class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <p>I bridge traditional SysAdmin expertise with modern DevOps practices. Started with Linux servers in Islamabad and now build real-time AI analytics pipelines and Kubernetes clusters. From securing servers with Fail2Ban to orchestrating microservices on Kubernetes with full CI/CD — I thrive at the intersection of reliability and innovation.</p>
+        <p>Currently pursuing a Bachelor's in AIOps, which deepens my approach to intelligent infrastructure. 17+ projects, 2+ years hands-on, and 15+ tools mastered — always learning, always automating.</p>
       </div>
-      <div class="tab-panel" id="tab-containers">
-        <div class="skill-cards">
-          <div class="skill-card"><i class="fab fa-docker"></i><span>Docker</span></div>
-          <div class="skill-card"><span class="skill-icon">🦭</span><span>Podman</span></div>
-          <div class="skill-card"><span class="skill-icon">☸️</span><span>Kubernetes</span></div>
-          <div class="skill-card"><span class="skill-icon">📋</span><span>Docker Compose</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-cicd">
-        <div class="skill-cards">
-          <div class="skill-card"><i class="fab fa-github"></i><span>GitHub Actions</span></div>
-          <div class="skill-card"><span class="skill-icon">🏗️</span><span>Jenkins</span></div>
-          <div class="skill-card"><i class="fab fa-git-alt"></i><span>Git</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-data">
-        <div class="skill-cards">
-          <div class="skill-card"><span class="skill-icon">📨</span><span>Apache Kafka</span></div>
-          <div class="skill-card"><span class="skill-icon">🌊</span><span>Apache NiFi</span></div>
-          <div class="skill-card"><span class="skill-icon">⚡</span><span>Apache Spark</span></div>
-          <div class="skill-card"><span class="skill-icon">🔍</span><span>Elasticsearch</span></div>
-          <div class="skill-card"><span class="skill-icon">📊</span><span>Kibana</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-monitoring">
-        <div class="skill-cards">
-          <div class="skill-card"><span class="skill-icon">👁️</span><span>Zabbix</span></div>
-          <div class="skill-card"><span class="skill-icon">🔔</span><span>Nagios</span></div>
-          <div class="skill-card"><span class="skill-icon">📈</span><span>Prometheus</span></div>
-          <div class="skill-card"><span class="skill-icon">📉</span><span>Grafana</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-automation">
-        <div class="skill-cards">
-          <div class="skill-card"><span class="skill-icon">⚙️</span><span>Ansible</span></div>
-          <div class="skill-card"><i class="fab fa-python"></i><span>Python</span></div>
-          <div class="skill-card"><span class="skill-icon">📜</span><span>Bash Scripting</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-security">
-        <div class="skill-cards">
-          <div class="skill-card"><span class="skill-icon">🔑</span><span>IAM</span></div>
-          <div class="skill-card"><span class="skill-icon">🔒</span><span>SSH Hardening</span></div>
-          <div class="skill-card"><span class="skill-icon">🛡️</span><span>Fail2Ban</span></div>
-          <div class="skill-card"><span class="skill-icon">🧱</span><span>iptables / UFW</span></div>
-          <div class="skill-card"><span class="skill-icon">🔏</span><span>Ansible Vault</span></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-linux">
-        <div class="skill-cards">
-          <div class="skill-card"><i class="fab fa-linux"></i><span>Linux (RHEL/Ubuntu/CentOS)</span></div>
-          <div class="skill-card"><span class="skill-icon">🖥️</span><span>Windows Server</span></div>
-          <div class="skill-card"><span class="skill-icon">⚡</span><span>Nginx / Apache</span></div>
-          <div class="skill-card"><span class="skill-icon">🐬</span><span>MySQL</span></div>
-          <div class="skill-card"><span class="skill-icon">🖥️</span><span>VMware / Proxmox / Hyper-V</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <h2 class="section-title">Work Experience</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header" onclick="toggleTimeline(this)">
-            <div>
-              <h3>Linux System Administrator</h3>
-              <span class="company">TUMARMS — Islamabad (On-site)</span>
-            </div>
-            <div class="timeline-meta">
-              <span class="date">June 2025 – Aug 2025</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-          </div>
-          <div class="timeline-body">
-            <ul>
-              <li>Administered Asterisk &amp; Vicidial VoIP systems on Ubuntu including SIP trunking and DID routing</li>
-              <li>Managed users, SSH access, UFW/IPTables, and server hardening with Fail2Ban</li>
-              <li>Configured Nginx, FTP, and NFS services for internal applications</li>
-              <li>Implemented SSL certificates, security best practices, and routine patching</li>
-              <li>Automated backups using Bash, Python, rsync, tar, and cron</li>
-              <li>Managed storage (LVM, partitions) and monitored system health proactively</li>
-            </ul>
-          </div>
+    <!-- Experience -->
+    <section id="experience" class="container">
+      <h2 class="section-title">Work Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>Linux System Administrator</h3>
+          <div class="meta">TUMARMS — Islamabad (On-site)</div>
+          <p>Administered Asterisk & Vicidial VoIP, managed security hardening (Fail2Ban, iptables), configured Nginx & NFS, and automated backups with Bash/Python. Ensured high-availability system monitoring.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>System Administrator</h3>
+          <div class="meta">Precise Tech — Remote (Canada)</div>
+          <p>Managed AWS, VMware, Proxmox, Hyper-V environments. Automated deployments via Ansible, implemented Zabbix/Nagios monitoring, and enforced IAM and network security policies.</p>
         </div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header" onclick="toggleTimeline(this)">
-            <div>
-              <h3>System Administrator</h3>
-              <span class="company">Precise Tech — Remote (Canada)</span>
-            </div>
-            <div class="timeline-meta">
-              <span class="date">Feb 2025 – June 2025</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-          </div>
-          <div class="timeline-body">
-            <ul>
-              <li>Conducted QA testing for ERP systems validating business workflows and data accuracy</li>
-              <li>Managed AWS, VMware, Proxmox, and Hyper-V cloud and virtualized environments</li>
-              <li>Automated deployments using Ansible, Bash, and Python</li>
-              <li>Implemented monitoring with Zabbix and Nagios to reduce downtime</li>
-              <li>Enforced security practices including IAM, system hardening, and network protection</li>
-            </ul>
-          </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="container">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>Cloud & IaC</h3>
+          <ul><li>AWS</li><li>Terraform</li><li>EC2/VPC/IAM</li><li>S3</li></ul>
+        </div>
+        <div class="skill-card">
+          <h3>Containers</h3>
+          <ul><li>Docker</li><li>Podman</li><li>Kubernetes</li><li>Docker Compose</li></ul>
+        </div>
+        <div class="skill-card">
+          <h3>CI/CD & Automation</h3>
+          <ul><li>GitHub Actions</li><li>Jenkins</li><li>Ansible</li><li>Bash</li><li>Python</li></ul>
+        </div>
+        <div class="skill-card">
+          <h3>Monitoring & Logging</h3>
+          <ul><li>Prometheus</li><li>Grafana</li><li>Zabbix</li><li>Nagios</li><li>ELK Stack</li></ul>
+        </div>
+        <div class="skill-card">
+          <h3>Security & Hardening</h3>
+          <ul><li>IAM</li><li>Fail2Ban</li><li>iptables/UFW</li><li>Ansible Vault</li></ul>
+        </div>
+        <div class="skill-card">
+          <h3>Systems</h3>
+          <ul><li>Linux (RHEL/Ubuntu)</li><li>Nginx/Apache</li><li>MySQL</li><li>VMware/Proxmox</li></ul>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <h2 class="section-title">Projects</h2>
-    <div class="projects-filter">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="Kubernetes">Kubernetes</button>
-      <button class="filter-btn" data-filter="Docker">Docker</button>
-      <button class="filter-btn" data-filter="Ansible">Ansible</button>
-      <button class="filter-btn" data-filter="AWS">AWS</button>
-      <button class="filter-btn" data-filter="Python">Python</button>
-      <button class="filter-btn" data-filter="Flask">Flask</button>
-    </div>
-    <div class="projects-grid" id="projects-grid"></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <h2 class="section-title">Get In Touch</h2>
-    <div class="contact-grid">
-      <div class="contact-info">
-        <p>Open to remote opportunities, freelance projects, and collaborations in DevOps, Cloud Infrastructure, and Automation.</p>
-        <div class="contact-links">
-          <a href="mailto:saadcnx@gmail.com" class="contact-item">
-            <i class="fas fa-envelope"></i>
-            <span>saadcnx@gmail.com</span>
-          </a>
-          <a href="https://linkedin.com/in/saad-khan-sysops/" target="_blank" class="contact-item">
-            <i class="fab fa-linkedin"></i>
-            <span>linkedin.com/in/saad-khan-sysops</span>
-          </a>
-          <a href="https://github.com/saadcnx" target="_blank" class="contact-item">
-            <i class="fab fa-github"></i>
-            <span>github.com/saadcnx</span>
-          </a>
+    <!-- Projects - ALL 17 -->
+    <section id="projects" class="container">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-subtitle">Every project I've built, from infrastructure to automation.</p>
+      <div class="projects-grid">
+        <!-- 1 -->
+        <div class="project-card">
+          <h4>Real-Time AI Security Analytics Platform</h4>
+          <p>Real-time log processing pipeline with ML-based anomaly detection and threat identification.</p>
+          <a href="https://github.com/saadcnx/real-time-ai-security" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 2 -->
+        <div class="project-card">
+          <h4>Ansible Web Server Role Automation</h4>
+          <p>Role-based Ansible automation to install, configure, and manage Apache web servers on Ubuntu.</p>
+          <a href="https://github.com/saadcnx/ansible-web-server" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 3 -->
+        <div class="project-card">
+          <h4>Ansible Vault Enterprise Secrets Management</h4>
+          <p>Enterprise-grade secrets management and automation using Ansible Vault.</p>
+          <a href="https://github.com/saadcnx/ansible-vault" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 4 -->
+        <div class="project-card">
+          <h4>Ansible Dynamic Config System</h4>
+          <p>Dynamic configuration management system using Ansible for scalable infrastructure.</p>
+          <a href="https://github.com/saadcnx/ansible-dynamic-config" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 5 -->
+        <div class="project-card">
+          <h4>Kubernetes Multi-Tier Application</h4>
+          <p>Multi-tier app on Kubernetes with Nginx frontend, Flask API backend, and MySQL database.</p>
+          <a href="https://github.com/saadcnx/k8s-multi-tier" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 6 -->
+        <div class="project-card">
+          <h4>Kubernetes Security Best Practices</h4>
+          <p>KCNA-aligned Kubernetes security implementation covering RBAC, network policies, and pod security.</p>
+          <a href="https://github.com/saadcnx/k8s-security" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 7 -->
+        <div class="project-card">
+          <h4>Kubernetes Persistent Storage</h4>
+          <p>Practical implementation of persistent volumes, claims, and storage classes in Kubernetes.</p>
+          <a href="https://github.com/saadcnx/k8s-persistent-storage" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 8 -->
+        <div class="project-card">
+          <h4>Kubernetes Building Blocks</h4>
+          <p>Core Kubernetes concepts: Deployments, Services, ConfigMaps, Secrets, and Ingress.</p>
+          <a href="https://github.com/saadcnx/k8s-building-blocks" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 9 -->
+        <div class="project-card">
+          <h4>Docker CI/CD with GitHub Actions</h4>
+          <p>Automated Docker image build and deployment pipeline using GitHub Actions.</p>
+          <a href="https://github.com/saadcnx/docker-cicd" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 10 -->
+        <div class="project-card">
+          <h4>Docker Complex App Orchestration</h4>
+          <p>Multi-service Docker Compose orchestration for complex application stacks.</p>
+          <a href="https://github.com/saadcnx/docker-complex-app" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 11 -->
+        <div class="project-card">
+          <h4>Multi-Container Web Application</h4>
+          <p>Production-style multi-container web application with Docker networking and volumes.</p>
+          <a href="https://github.com/saadcnx/multi-container-webapp" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 12 -->
+        <div class="project-card">
+          <h4>Production Nginx Reverse Proxy & Load Balancer</h4>
+          <p>Production-grade Nginx setup with reverse proxy, load balancing, and SSL termination.</p>
+          <a href="https://github.com/saadcnx/nginx-reverse-proxy" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 13 -->
+        <div class="project-card">
+          <h4>Dockerized Flask Application</h4>
+          <p>Flask web application containerized with Docker for consistent deployment.</p>
+          <a href="https://github.com/saadcnx/dockerized-flask" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 14 -->
+        <div class="project-card">
+          <h4>JIRA Automation Suite (Python)</h4>
+          <p>Python automation using JIRA REST API for auto-ticketing, health monitoring, and DevOps workflows.</p>
+          <a href="https://github.com/saadcnx/jira-automation" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 15 -->
+        <div class="project-card">
+          <h4>Flask JIRA API Project</h4>
+          <p>Flask-based web interface integrated with JIRA API for project and issue management.</p>
+          <a href="https://github.com/saadcnx/flask-jira-api" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 16 -->
+        <div class="project-card">
+          <h4>Trainer Management System</h4>
+          <p>Full-stack Flask web app for managing trainer records with MySQL and CRUD operations.</p>
+          <a href="https://github.com/saadcnx/trainer-management" target="_blank" class="project-link">GitHub →</a>
+        </div>
+        <!-- 17 -->
+        <div class="project-card">
+          <h4>AWS Solution Architecture</h4>
+          <p>AWS infrastructure architecture designs covering EC2, VPC, IAM, S3, and cloud best practices.</p>
+          <a href="https://github.com/saadcnx/aws-solution-architecture" target="_blank" class="project-link">GitHub →</a>
         </div>
       </div>
-      <form class="contact-form" id="contact-form">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <input type="text" placeholder="Subject" />
-        <textarea rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
-      </form>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>Built with ❤️ by Saad Khan &bull; Hosted on <strong>Cloudflare Pages</strong> &bull; <a href="https://github.com/saadcnx" target="_blank">github.com/saadcnx</a></p>
-</footer>
+    <!-- Contact -->
+    <section id="contact" class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="contact-text">Open to remote opportunities, freelance projects, and collaborations in DevOps, Cloud Infrastructure, and Automation.</p>
+      <div class="contact-links">
+        <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="btn">LinkedIn</a>
+      </div>
+    </section>
+  </main>
 
-<script src="projects-data.js"></script>
-<script src="main.js"></script>
+  <footer>
+    <p>© 2025 Saad Khan — Built with focus on simplicity.</p>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+    });
+  </script>
 </body>
 </html>
