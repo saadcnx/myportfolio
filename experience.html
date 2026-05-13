@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience — Saad Khan</title>
+  <style>
+    :root {
+      --bg: #08080c;
+      --surface: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.05);
+      --text-primary: #e0e0e0;
+      --text-secondary: #aaa;
+      --text-muted: #888;
+      --heading: #fff;
+      --btn-bg: rgba(255,255,255,0.05);
+      --btn-hover-bg: rgba(255,255,255,0.12);
+      --btn-border: rgba(255,255,255,0.2);
+      --toggle-bg: rgba(255,255,255,0.1);
+      --toggle-circle: #fff;
+    }
+    .light-theme {
+      --bg: #f7f7f9;
+      --surface: rgba(0,0,0,0.02);
+      --border: rgba(0,0,0,0.06);
+      --text-primary: #1a1a1a;
+      --text-secondary: #555;
+      --text-muted: #777;
+      --heading: #111;
+      --btn-bg: rgba(0,0,0,0.03);
+      --btn-hover-bg: rgba(0,0,0,0.08);
+      --btn-border: rgba(0,0,0,0.15);
+      --toggle-bg: #ddd;
+      --toggle-circle: #111;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 700px; margin: 0 auto; padding: 0 2rem; }
+
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      background: rgba(8,8,12,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .light-theme nav { background: rgba(247,247,249,0.8); }
+    .nav-container {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 2rem; max-width: 1000px; margin: 0 auto;
+    }
+    .logo { font-weight: 700; font-size: 1.3rem; color: var(--heading); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.95rem; color: var(--text-secondary); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--heading); }
+    .nav-links a.active { border-bottom: 1px solid var(--heading); padding-bottom: 2px; }
+
+    .theme-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--toggle-bg); border: none; cursor: pointer;
+      transition: all 0.3s; margin-left: 1rem; position: relative;
+    }
+    .theme-toggle svg {
+      width: 18px; height: 18px; fill: none; stroke: var(--toggle-circle);
+      transition: opacity 0.2s;
+    }
+    .sun-icon, .moon-icon { position: absolute; }
+    .light-theme .sun-icon { opacity: 0; }
+    .light-theme .moon-icon { opacity: 1; }
+    .moon-icon { opacity: 0; }
+    .sun-icon { opacity: 1; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: var(--heading); border-radius: 2px; }
+
+    .page-header {
+      padding: 8rem 0 3rem; text-align: center;
+    }
+    .page-header h1 {
+      font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; color: var(--heading);
+    }
+
+    .timeline { position: relative; padding-left: 1.8rem; border-left: 1px solid var(--border); }
+    .timeline-item { margin-bottom: 3.5rem; position: relative; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.25rem; top: 0.4rem;
+      width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%;
+    }
+    .timeline-item h3 { font-size: 1.3rem; color: var(--heading); }
+    .timeline-item .meta { font-size: 0.95rem; color: var(--text-muted); margin: 0.3rem 0 1rem; }
+    .timeline-item p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
+    .timeline-item ul { margin-top: 0.8rem; padding-left: 1.2rem; color: var(--text-secondary); }
+    .timeline-item li { margin-bottom: 0.3rem; font-size: 0.95rem; }
+
+    footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg); flex-direction: column; padding: 1.5rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
+      .theme-toggle { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Saad Khan</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="experience.html" class="active">Experience</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1>Work Experience</h1>
+    </div>
+
+    <section class="container">
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>Linux System Administrator</h3>
+          <div class="meta">TUMARMS — Islamabad (On-site)</div>
+          <p>Led VoIP infrastructure and system security for enterprise-scale deployment.</p>
+          <ul>
+            <li>Administered Asterisk & Vicidial VoIP systems on Ubuntu including SIP trunking and DID routing</li>
+            <li>Managed users, SSH access, UFW/IPTables, and server hardening with Fail2Ban</li>
+            <li>Configured Nginx, FTP, and NFS services for internal applications</li>
+            <li>Implemented SSL certificates, security best practices, and routine patching</li>
+            <li>Automated backups using Bash, Python, rsync, tar, and cron</li>
+            <li>Managed storage (LVM, partitions) and monitored system health proactively</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <h3>System Administrator</h3>
+          <div class="meta">Precise Tech — Remote (Canada)</div>
+          <p>Managed multi-cloud infrastructure and implemented automation for distributed systems.</p>
+          <ul>
+            <li>Conducted QA testing for ERP systems validating business workflows and data accuracy</li>
+            <li>Managed AWS, VMware, Proxmox, and Hyper-V cloud and virtualized environments</li>
+            <li>Automated deployments using Ansible, Bash, and Python</li>
+            <li>Implemented monitoring with Zabbix and Nagios to reduce downtime</li>
+            <li>Enforced security practices including IAM, system hardening, and network protection</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Saad Khan — Built with focus on simplicity.</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') document.body.classList.add('light-theme');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>
